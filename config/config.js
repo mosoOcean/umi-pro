@@ -116,6 +116,12 @@ export default {
               component: './AccountSettings',
             },
             {
+              name: '设备管理',
+              icon: 'smile',
+              path: '/equipment',
+              component: './equipment',
+            },
+            {
               component: './404',
             },
           ],

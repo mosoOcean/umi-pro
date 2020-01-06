@@ -8,7 +8,7 @@ import {
 import dynamic from 'umi/dynamic';
 import renderRoutes from 'umi/lib/renderRoutes';
 import history from '@@/history';
-import RendererWrapper0 from '/Users/wujian/Documents/github/project/src/pages/.umi/LocaleWrapper.jsx';
+import RendererWrapper0 from '/Users/wujian/Documents/github/umi-pro/src/pages/.umi/LocaleWrapper.jsx';
 import { routerRedux, dynamic as _dvaDynamic } from 'dva';
 
 const Router = routerRedux.ConnectedRouter;
@@ -20,7 +20,7 @@ const routes = [
       ? _dvaDynamic({
           component: () =>
             import(/* webpackChunkName: "layouts__UserLayout" */ '../../layouts/UserLayout'),
-          LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+          LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
             .default,
         })
       : require('../../layouts/UserLayout').default,
@@ -32,7 +32,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "p__user__login" */ '../user/login'),
-              LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+              LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
                 .default,
             })
           : require('../user/login').default,
@@ -41,7 +41,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require('/Users/wujian/Documents/github/project/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+            require('/Users/wujian/Documents/github/umi-pro/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
               .default,
             { pagesPath: 'src/pages', hasRoutesInConfig: true },
           ),
@@ -54,7 +54,7 @@ const routes = [
       ? _dvaDynamic({
           component: () =>
             import(/* webpackChunkName: "layouts__SecurityLayout" */ '../../layouts/SecurityLayout'),
-          LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+          LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
             .default,
         })
       : require('../../layouts/SecurityLayout').default,
@@ -65,7 +65,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "layouts__BasicLayout" */ '../../layouts/BasicLayout'),
-              LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+              LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
                 .default,
             })
           : require('../../layouts/BasicLayout').default,
@@ -84,7 +84,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__Welcome" */ '../Welcome'),
-                  LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+                  LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
                     .default,
                 })
               : require('../Welcome').default,
@@ -98,7 +98,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__Admin" */ '../Admin'),
-                  LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+                  LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
                     .default,
                 })
               : require('../Admin').default,
@@ -113,7 +113,7 @@ const routes = [
               ? _dvaDynamic({
                   app: require('@tmp/dva').getApp(),
                   models: () => [
-                    import(/* webpackChunkName: 'p__DashboardAnalysis__model.jsx' */ '/Users/wujian/Documents/github/project/src/pages/DashboardAnalysis/model.jsx').then(
+                    import(/* webpackChunkName: 'p__DashboardAnalysis__model.jsx' */ '/Users/wujian/Documents/github/umi-pro/src/pages/DashboardAnalysis/model.jsx').then(
                       m => {
                         return { namespace: 'model', ...m.default };
                       },
@@ -121,7 +121,7 @@ const routes = [
                   ],
                   component: () =>
                     import(/* webpackChunkName: "p__DashboardAnalysis" */ '../DashboardAnalysis'),
-                  LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+                  LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
                     .default,
                 })
               : require('../DashboardAnalysis').default,
@@ -135,7 +135,7 @@ const routes = [
               ? _dvaDynamic({
                   app: require('@tmp/dva').getApp(),
                   models: () => [
-                    import(/* webpackChunkName: 'p__AccountSettings__model.js' */ '/Users/wujian/Documents/github/project/src/pages/AccountSettings/model.js').then(
+                    import(/* webpackChunkName: 'p__AccountSettings__model.js' */ '/Users/wujian/Documents/github/umi-pro/src/pages/AccountSettings/model.js').then(
                       m => {
                         return { namespace: 'model', ...m.default };
                       },
@@ -143,10 +143,24 @@ const routes = [
                   ],
                   component: () =>
                     import(/* webpackChunkName: "p__AccountSettings" */ '../AccountSettings'),
-                  LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+                  LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
                     .default,
                 })
               : require('../AccountSettings').default,
+            exact: true,
+          },
+          {
+            name: '设备管理',
+            icon: 'smile',
+            path: '/equipment',
+            component: __IS_BROWSER
+              ? _dvaDynamic({
+                  component: () =>
+                    import(/* webpackChunkName: "p__equipment" */ '../equipment'),
+                  LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
+                    .default,
+                })
+              : require('../equipment').default,
             exact: true,
           },
           {
@@ -154,7 +168,7 @@ const routes = [
               ? _dvaDynamic({
                   component: () =>
                     import(/* webpackChunkName: "p__404" */ '../404'),
-                  LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+                  LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
                     .default,
                 })
               : require('../404').default,
@@ -163,7 +177,7 @@ const routes = [
           {
             component: () =>
               React.createElement(
-                require('/Users/wujian/Documents/github/project/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+                require('/Users/wujian/Documents/github/umi-pro/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
                   .default,
                 { pagesPath: 'src/pages', hasRoutesInConfig: true },
               ),
@@ -175,7 +189,7 @@ const routes = [
           ? _dvaDynamic({
               component: () =>
                 import(/* webpackChunkName: "p__404" */ '../404'),
-              LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+              LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
                 .default,
             })
           : require('../404').default,
@@ -184,7 +198,7 @@ const routes = [
       {
         component: () =>
           React.createElement(
-            require('/Users/wujian/Documents/github/project/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+            require('/Users/wujian/Documents/github/umi-pro/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
               .default,
             { pagesPath: 'src/pages', hasRoutesInConfig: true },
           ),
@@ -195,7 +209,7 @@ const routes = [
     component: __IS_BROWSER
       ? _dvaDynamic({
           component: () => import(/* webpackChunkName: "p__404" */ '../404'),
-          LoadingComponent: require('/Users/wujian/Documents/github/project/src/components/PageLoading/index')
+          LoadingComponent: require('/Users/wujian/Documents/github/umi-pro/src/components/PageLoading/index')
             .default,
         })
       : require('../404').default,
@@ -204,7 +218,7 @@ const routes = [
   {
     component: () =>
       React.createElement(
-        require('/Users/wujian/Documents/github/project/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
+        require('/Users/wujian/Documents/github/umi-pro/node_modules/umi-build-dev/lib/plugins/404/NotFound.js')
           .default,
         { pagesPath: 'src/pages', hasRoutesInConfig: true },
       ),
