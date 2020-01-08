@@ -122,6 +122,12 @@ export default {
               component: './equipment',
             },
             {
+              name: '用户管理',
+              icon: 'smile',
+              path: '/userManage',
+              component: './userManage',
+            },
+            {
               component: './404',
             },
           ],
