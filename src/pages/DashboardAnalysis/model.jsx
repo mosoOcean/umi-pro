@@ -11,6 +11,7 @@ const initState = {
   salesTypeDataOnline: [],
   salesTypeDataOffline: [],
   radarData: [],
+ 
 };
 const Model = {
   namespace: 'dashboardAnalysis',
