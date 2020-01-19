@@ -77,7 +77,7 @@ const handleRemove = async selectedRows => {
 }
 
 const TableList = props => {
-  const [createModalVisible, handleModalVisible] = useState(false)
+  const [isNew, setIsNew] = useState(false)
   const [updateModalVisible, handleUpdateModalVisible] = useState(false)
   const [stepFormValues, setStepFormValues] = useState({})
   const actionRef = useRef()
@@ -131,6 +131,7 @@ const TableList = props => {
             onClick={() => {
               handleUpdateModalVisible(true)
               setStepFormValues(record)
+              setIsNew(false)
             }}
           >
             配置
@@ -143,6 +144,13 @@ const TableList = props => {
   ]
 
   const { equipment = {} } = props
+  console.log("equipment.tableDatas", equipment.tableDatas)
+
+  const [eTableData, setETableData] = useState(equipment.tableDatas)
+
+  useEffect(() => {
+    setETableData(equipment.tableDatas)
+  }, [equipment.tableDatas])
   return (
     <div>
       <ProTable
@@ -155,7 +163,10 @@ const TableList = props => {
           <Button
             icon="plus"
             type="primary"
-            onClick={() => handleModalVisible(true)}
+            onClick={() => {
+              handleUpdateModalVisible(true)
+              setIsNew(true)
+            }}
           >
             新建
           </Button>,
@@ -195,60 +206,23 @@ const TableList = props => {
             项
           </div>
         )}
-        dataSource={equipment.tableDatas || []}
+        dataSource={eTableData}
         columns={columns}
         rowSelection={{}}
-      />
-      <CreateForm
-        onSubmit={async value => {
-          const success = await handleAdd(value)
-
-          if (success) {
-            handleModalVisible(false)
-
-            if (actionRef.current) {
-              actionRef.current.reload()
-            }
-          }
-        }}
-        onCancel={() => handleModalVisible(false)}
-        modalVisible={createModalVisible}
       />
       {
         // 模态框
         <Equipment
           title="设备详情"
           visible={updateModalVisible}
+          detailValues={stepFormValues}
           closeModal={handleUpdateModalVisible}
+          isNew={isNew}
         ></Equipment>
       }
-      {/*stepFormValues && Object.keys(stepFormValues).length ? (
-        <UpdateForm
-          onSubmit={async value => {
-            const success = await handleUpdate(value)
-
-            if (success) {
-              handleModalVisible(false)
-              setStepFormValues({})
-
-              if (actionRef.current) {
-                actionRef.current.reload()
-              }
-            }
-          }}
-          onCancel={() => {
-            handleUpdateModalVisible(false)
-            setStepFormValues({})
-          }}
-          updateModalVisible={updateModalVisible}
-          values={stepFormValues}
-        />
-        ) : null*/}
     </div>
   )
 }
-
-// export default Form.create()(TableList)
 
 export default connect(({ equipment, loading }) => {
   return {

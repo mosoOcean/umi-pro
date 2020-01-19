@@ -2,7 +2,7 @@
  * @Description: 设备管理model
  * @Author: zhanghaoyu004
  * @Date: 2020-01-18 10:16:35
- * @LastEditTime : 2020-01-19 18:03:19
+ * @LastEditTime : 2020-01-19 23:59:19
  * @LastEditors  : zhanghaoyu004
  */
 import { queryRule } from "@/pages/equipment/ListTableList/service"
@@ -23,7 +23,6 @@ const productTreeData = arr => {
 const EquipmentModel = {
   namespace: "equipment",
   state: {
-    currentLevel: 0, // 当前层级
     currentId: 0, // 当前树节点ID
     tableDatas: [], // 当前节点ID查出来的table数据
     treeDatas: []
@@ -31,6 +30,8 @@ const EquipmentModel = {
   effects: {
     *queryRule({ payload }, { call, put, select }) {
       const response = yield call(queryRule, payload)
+      console.log("发送设备查询请求")
+      yield put({ type: "setCurrentId", payload: payload.parentId })
       if (!response || !response.data) return
 
       const resData = response.data
@@ -38,26 +39,27 @@ const EquipmentModel = {
         type: "saveTableDatas",
         payload: resData || []
       })
-
-      const { parentId } = payload
-      const state = yield select(state => state)
-      const tempData = state.equipment.tableDatas.slice(0)
-      // 如果为0则为根节点
-      if (parentId === 0) {
-        yield put({
-          type: "saveTreeDatas",
-          payload: productTreeData(resData)
-        })
-      } else {
-        tempData.map(item => {
-          if (String(item.key) === String(parentId)) {
-            item.children = productTreeData(res.data)
-          }
-        })
-        yield put({
-          type: "saveTreeDatas",
-          payload: tempData
-        })
+      if (Array.isArray(resData) && resData.length > 0) {
+        const { parentId } = payload
+        const state = yield select(state => state)
+        const tempData = state.equipment.treeDatas.slice(0)
+        // 如果为0则为根节点
+        if (parentId === 0) {
+          yield put({
+            type: "saveTreeDatas",
+            payload: productTreeData(resData)
+          })
+        } else {
+          tempData.map(item => {
+            if (String(item.key) === String(parentId)) {
+              item.children = productTreeData(resData)
+            }
+          })
+          yield put({
+            type: "saveTreeDatas",
+            payload: tempData
+          })
+        }
       }
     }
   },
@@ -68,6 +70,9 @@ const EquipmentModel = {
     // 保存树结构的数据
     saveTreeDatas(state, action) {
       return { ...state, treeDatas: action.payload || [] }
+    },
+    setCurrentId(state, action) {
+      return { ...state, currentId: action.payload }
     }
   }
 }

@@ -149,7 +149,7 @@ class SearchTree extends React.Component {
           expandedKeys={expandedKeys}
           autoExpandParent={autoExpandParent}
           onSelect={(selectedKeys, secondData) => {
-            this.getTreeData((selectedKeys && selectedKeys[0]) || "")
+            selectedKeys[0] && this.getTreeData(selectedKeys[0])
           }}
         >
           {loop(treeDatas)}

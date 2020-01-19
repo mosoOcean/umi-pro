@@ -2,12 +2,13 @@
  * @Description: desc
  * @Author: zhanghaoyu004
  * @Date: 2020-01-08 11:40:36
- * @LastEditTime : 2020-01-19 16:47:56
+ * @LastEditTime : 2020-01-19 23:03:45
  * @LastEditors  : zhanghaoyu004
  */
 import request from "@/utils/request"
 
-const mockPre = "/api/mock/20"
+// const mockPre = "/api/mock/20"
+const mockPre = "/api/app"
 
 export async function queryRule(params) {
   return request(mockPre + "/equipment/getEquipments", {

@@ -2,8 +2,8 @@
  * @Description: desc
  * @Author: zhanghaoyu004
  * @Date: 2020-01-06 23:32:22
- * @LastEditTime: 2020-01-19 18:09:54
- * @LastEditors: zhanghaoyu004
+ * @LastEditTime : 2020-01-19 22:58:37
+ * @LastEditors  : zhanghaoyu004
  */
 export default {
   "menu.welcome": "欢迎",
@@ -14,7 +14,7 @@ export default {
   "menu.register": "注册",
   "menu.register.result": "注册结果",
   "menu.dashboard": "Dashboard",
-  // 'menu.dashboard.analysis': '分析页',
+  "menu.dashboard.analysis": "分析页",
   "menu.dashboard.monitor": "监控页",
   "menu.dashboard.workplace": "工作台",
   "menu.exception.403": "403",
