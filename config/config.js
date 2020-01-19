@@ -118,7 +118,7 @@ export default {
             },
             {
               name: "设备管理",
-              icon: "smile",
+              icon: "cluster",
               path: "/equipment",
               component: "./equipment"
             },

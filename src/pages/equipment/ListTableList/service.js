@@ -2,13 +2,15 @@
  * @Description: desc
  * @Author: zhanghaoyu004
  * @Date: 2020-01-08 11:40:36
- * @LastEditTime: 2020-01-18 09:46:51
- * @LastEditors: zhanghaoyu004
+ * @LastEditTime : 2020-01-19 16:47:56
+ * @LastEditors  : zhanghaoyu004
  */
 import request from "@/utils/request"
 
+const mockPre = "/api/mock/20"
+
 export async function queryRule(params) {
-  return request("/api/mock/20/equipment/getEquipments", {
+  return request(mockPre + "/equipment/getEquipments", {
     params
   })
 }
@@ -19,7 +21,7 @@ export async function removeRule(params) {
   })
 }
 export async function addRule(params) {
-  return request("/api/rule", {
+  return request(mockPre + "/equipment/insertEquipment", {
     method: "POST",
     data: { ...params, method: "post" }
   })

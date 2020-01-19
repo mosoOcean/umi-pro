@@ -151,7 +151,7 @@ const routes = [
           },
           {
             name: '设备管理',
-            icon: 'smile',
+            icon: 'cluster',
             path: '/equipment',
             component: __IS_BROWSER
               ? _dvaDynamic({

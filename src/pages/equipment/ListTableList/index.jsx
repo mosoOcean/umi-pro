@@ -1,10 +1,14 @@
 import { Button, Divider, Dropdown, Form, Icon, Menu, message } from "antd"
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect, Fragment } from "react"
 import ProTable from "@ant-design/pro-table"
 import CreateForm from "./components/CreateForm"
 import UpdateForm from "./components/UpdateForm"
+import Equipment from "./components/equipmentModal"
 import { queryRule, updateRule, addRule, removeRule } from "./service"
 import { connect } from "dva"
+import moment from "moment"
+
+import "./index.less"
 
 /**
  * 添加节点
@@ -77,55 +81,52 @@ const TableList = props => {
   const [updateModalVisible, handleUpdateModalVisible] = useState(false)
   const [stepFormValues, setStepFormValues] = useState({})
   const actionRef = useRef()
+
   const columns = [
     {
       title: "序号",
       dataIndex: "equipmentId"
     },
     {
-      title: "描述",
-      dataIndex: "desc"
+      title: "设备编码",
+      dataIndex: "equipmentCode"
     },
     {
-      title: "服务调用次数",
-      dataIndex: "callNo",
-      sorter: true,
-      renderText: val => `${val} 万`
+      title: "父设备",
+      dataIndex: "parentId"
     },
     {
-      title: "状态",
-      dataIndex: "status",
-      valueEnum: {
-        0: {
-          text: "关闭",
-          status: "Default"
-        },
-        1: {
-          text: "运行中",
-          status: "Processing"
-        },
-        2: {
-          text: "已上线",
-          status: "Success"
-        },
-        3: {
-          text: "异常",
-          status: "Error"
-        }
+      title: "设备名称",
+      dataIndex: "name"
+    },
+    {
+      title: "工作状态",
+      dataIndex: "workStatue",
+      render(text) {
+        return text === 1 ? "使用中" : "废弃"
       }
     },
     {
-      title: "上次调度时间",
-      dataIndex: "updatedAt",
-      sorter: true,
-      valueType: "dateTime"
+      title: "设备详情",
+      dataIndex: "desc"
+    },
+    {
+      title: "设备地址",
+      dataIndex: "address"
+    },
+    {
+      title: "创建时间",
+      dataIndex: "createTime",
+      render(text) {
+        return moment(text).format("YYYY-MM-DD HH:mm:ss")
+      }
     },
     {
       title: "操作",
       dataIndex: "option",
       valueType: "option",
       render: (_, record) => (
-        <>
+        <Fragment>
           <a
             onClick={() => {
               handleUpdateModalVisible(true)
@@ -136,17 +137,20 @@ const TableList = props => {
           </a>
           <Divider type="vertical" />
           <a href="">订阅警报</a>
-        </>
+        </Fragment>
       )
     }
   ]
-  const { equipment = {}, dispatch } = props
+
+  const { equipment = {} } = props
   return (
     <div>
       <ProTable
-        headerTitle="查询表格"
+        headerTitle="设备表格"
+        scroll={{ x: true }}
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="equipmentCode"
+        search={false}
         toolBarRender={(action, { selectedRows }) => [
           <Button
             icon="plus"
@@ -188,19 +192,10 @@ const TableList = props => {
             >
               {selectedRowKeys.length}
             </a>{" "}
-            项&nbsp;&nbsp;
-            <span>
-              服务调用次数总计{" "}
-              {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
-            </span>
+            项
           </div>
         )}
-        request={params =>
-          dispatch({
-            type: "equipment/queryRule",
-            payload: params
-          })
-        }
+        dataSource={equipment.tableDatas || []}
         columns={columns}
         rowSelection={{}}
       />
@@ -219,7 +214,15 @@ const TableList = props => {
         onCancel={() => handleModalVisible(false)}
         modalVisible={createModalVisible}
       />
-      {stepFormValues && Object.keys(stepFormValues).length ? (
+      {
+        // 模态框
+        <Equipment
+          title="设备详情"
+          visible={updateModalVisible}
+          closeModal={handleUpdateModalVisible}
+        ></Equipment>
+      }
+      {/*stepFormValues && Object.keys(stepFormValues).length ? (
         <UpdateForm
           onSubmit={async value => {
             const success = await handleUpdate(value)
@@ -240,7 +243,7 @@ const TableList = props => {
           updateModalVisible={updateModalVisible}
           values={stepFormValues}
         />
-      ) : null}
+        ) : null*/}
     </div>
   )
 }
