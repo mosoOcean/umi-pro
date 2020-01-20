@@ -38,8 +38,8 @@ const TimelineChart = props => {
 
   const ds = new DataSet({
     state: {
-      start: data[0].x,
-      end: data[data.length - 1].x,
+      start: data[0]&&data[0].x,
+      end: data[0]&&data[data.length - 1].x,
     },
   });
   const dv = ds.createView();
