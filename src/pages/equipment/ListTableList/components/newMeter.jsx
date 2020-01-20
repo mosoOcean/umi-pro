@@ -2,7 +2,7 @@
  * @Description: 新增仪表
  * @Author: zhanghaoyu004
  * @Date: 2020-01-19 16:09:21
- * @LastEditTime : 2020-01-20 14:59:21
+ * @LastEditTime : 2020-01-20 15:27:48
  * @LastEditors  : zhanghaoyu004
  */
 import React, { useState, useEffect } from "react"
@@ -29,53 +29,54 @@ export default connect(({ equipment }) => {
 
     const handleOk = (equipmentId, meterId, e) => {
       const tempId = props.isNew ? props.detailValues.equipmentId : equipmentId
-      if (props.isNew) {
-        insertMeter(
-          Object.assign(props.form.getFieldsValue(), { equipmentId: tempId })
-        )
-          .then(res => {
-            if (res && res.success) {
-              message.success("新增仪表成功")
-              props.setData(tempId)
-            } else {
-              message.error("新增仪表失败")
-            }
-          })
-          .catch(err => {
-            console.error(err)
-          })
-          .finally(() => {
-            props.closeModal(false)
-          })
-      } else {
-        updateMeter(
-          Object.assign(props.form.getFieldsValue(), {
-            meterId: meterId,
-            equipmentId: equipmentId,
-            workStatue: props.form.getFieldsValue().workStatue * 1
-          })
-        )
-          .then(res => {
-            if (res && res.success) {
-              const tempTxt = props.isNew
-                ? "新增仪表设备成功"
-                : "仪表数据修改成功"
-              message.success(tempTxt)
-              props.setData(tempId)
-            } else {
-              const tempTxt = props.isNew
-                ? "新增仪表设备失败"
-                : "仪表数据修改失败"
-              message.error(tempTxt + res.message)
-            }
-          })
-          .catch(err => {
-            console.error(err)
-          })
-          .finally(() => {
-            props.closeModal(false)
-          })
-      }
+      props.form.validateFields((error, values) => {
+        if (error) return
+        if (props.isNew) {
+          insertMeter(Object.assign(values, { equipmentId: tempId }))
+            .then(res => {
+              if (res && res.success) {
+                message.success("新增仪表成功")
+                props.setData(tempId)
+              } else {
+                message.error("新增仪表失败")
+              }
+            })
+            .catch(err => {
+              console.error(err)
+            })
+            .finally(() => {
+              props.closeModal(false)
+            })
+        } else {
+          updateMeter(
+            Object.assign(values, {
+              meterId: meterId,
+              equipmentId: equipmentId,
+              workStatue: values.workStatue * 1
+            })
+          )
+            .then(res => {
+              if (res && res.success) {
+                const tempTxt = props.isNew
+                  ? "新增仪表设备成功"
+                  : "仪表数据修改成功"
+                message.success(tempTxt)
+                props.setData(tempId)
+              } else {
+                const tempTxt = props.isNew
+                  ? "新增仪表设备失败"
+                  : "仪表数据修改失败"
+                message.error(tempTxt + res.message)
+              }
+            })
+            .catch(err => {
+              console.error(err)
+            })
+            .finally(() => {
+              props.closeModal(false)
+            })
+        }
+      })
     }
 
     const handleCancel = e => {
@@ -125,7 +126,14 @@ export default connect(({ equipment }) => {
 
         <FormItem {...formLayout} label="仪表状态">
           {getFieldDecorator("workStatue", {
-            initialValue: tempStatus + ""
+            initialValue: tempStatus + "",
+            rules: [
+              {
+                required: true,
+                message: "请选择仪表状态！",
+                whitespace: true
+              }
+            ]
           })(
             <Select
               allowClear

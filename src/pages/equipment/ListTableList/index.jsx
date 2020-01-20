@@ -81,8 +81,7 @@ const TableList = props => {
                     .then(res => {
                       if (res && res.success) {
                         message.success("删除设备成功")
-                        debugger
-                        this.props.dispatch({
+                        props.dispatch({
                           type: "equipment/queryRule",
                           payload: {
                             parentId: record.equipmentId

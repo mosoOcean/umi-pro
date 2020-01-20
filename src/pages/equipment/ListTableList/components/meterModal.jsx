@@ -2,14 +2,14 @@
  * @Description: 仪表模态框
  * @Author: zhanghaoyu004
  * @Date: 2020-01-19 16:09:21
- * @LastEditTime : 2020-01-20 14:48:05
+ * @LastEditTime : 2020-01-20 15:32:36
  * @LastEditors  : zhanghaoyu004
  */
 import React, { useState, useEffect, Fragment } from "react"
 import { Modal, Button, Table, message, Select, Divider } from "antd"
 import { connect } from "dva"
 import moment from "moment"
-import { updateRule } from "../service"
+import { updateMeter } from "../service"
 
 import NewMeter from "./newMeter"
 import styles from "./meterModal.less"
@@ -91,7 +91,7 @@ export default connect(({ equipment }) => {
                 Modal.confirm({
                   title: "确定删除此仪表数据？",
                   onOk: () => {
-                    updateRule({ workStatue: 1, meterId: record.meterId })
+                    updateMeter({ workStatue: 1, meterId: record.meterId })
                       .then(res => {
                         if (res && res.success) {
                           message.success("删除仪表成功")

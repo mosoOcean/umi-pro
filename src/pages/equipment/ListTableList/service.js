@@ -2,7 +2,7 @@
  * @Description: desc
  * @Author: zhanghaoyu004
  * @Date: 2020-01-08 11:40:36
- * @LastEditTime : 2020-01-20 14:36:11
+ * @LastEditTime : 2020-01-20 15:32:11
  * @LastEditors  : zhanghaoyu004
  */
 import request from "@/utils/request"
@@ -25,12 +25,6 @@ export async function updateRule(params) {
   })
 }
 
-export async function removeRule(params) {
-  return request(mockPre + "/equipment/updateEquipment", {
-    method: "POST",
-    data: { ...params, method: "delete" }
-  })
-}
 export async function addRule(params) {
   return request(mockPre + "/equipment/insertEquipment", {
     method: "POST",

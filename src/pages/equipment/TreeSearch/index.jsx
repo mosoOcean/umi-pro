@@ -6,6 +6,24 @@ import styles from "./index.less"
 const { TreeNode } = Tree
 const { Search } = Input
 
+const getParentKey = (key, tree) => {
+  let parentKey
+
+  for (let i = 0; i < tree.length; i++) {
+    const node = tree[i]
+
+    if (node.children) {
+      if (node.children.some(item => item.key === key)) {
+        parentKey = node.key
+      } else if (getParentKey(key, node.children)) {
+        parentKey = getParentKey(key, node.children)
+      }
+    }
+  }
+
+  return parentKey
+}
+
 class SearchTree extends React.Component {
   state = {
     expandedKeys: [],
@@ -36,15 +54,16 @@ class SearchTree extends React.Component {
 
   onChange = e => {
     const { value } = e.target
-    const expandedKeys = dataList
+    const expandedKeys = this.props.equipment.treeDatas
       .map(item => {
         if (item.title.indexOf(value) > -1) {
-          return getParentKey(item.key, gData)
+          return getParentKey(item.key, this.props.equipment.treeDatas)
         }
 
         return null
       })
       .filter((item, i, self) => item && self.indexOf(item) === i)
+    console.log("expandedKeysexpandedKeys", expandedKeys)
     this.setState({
       expandedKeys,
       searchValue: value,
