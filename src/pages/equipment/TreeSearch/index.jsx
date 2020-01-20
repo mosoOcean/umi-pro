@@ -3,41 +3,37 @@ import { Tree, Input } from "antd"
 import { connect } from "dva"
 import styles from "./index.less"
 
-import {
-  queryRule,
-  updateRule,
-  addRule,
-  removeRule
-} from "../ListTableList/service"
-
 const { TreeNode } = Tree
 const { Search } = Input
+
+const getParentKey = (key, tree) => {
+  let parentKey
+
+  for (let i = 0; i < tree.length; i++) {
+    const node = tree[i]
+
+    if (node.children) {
+      if (node.children.some(item => item.key === key)) {
+        parentKey = node.key
+      } else if (getParentKey(key, node.children)) {
+        parentKey = getParentKey(key, node.children)
+      }
+    }
+  }
+
+  return parentKey
+}
 
 class SearchTree extends React.Component {
   state = {
     expandedKeys: [],
     searchValue: "",
     autoExpandParent: true
-
-    // treeData: [] // 存储树的数据
   }
 
   componentDidMount() {
     this.getTreeData(0)
   }
-
-  // // 组装树状结构需要的数据
-  // productTreeData = arr => {
-  //   if (!Array.isArray(arr)) return
-  //   return arr.map(item => {
-  //     const { name, equipmentId } = item
-  //     return {
-  //       title: name,
-  //       key: equipmentId,
-  //       children: []
-  //     }
-  //   })
-  // }
 
   // 查询设备数据
   getTreeData = id => {
@@ -47,32 +43,6 @@ class SearchTree extends React.Component {
         parentId: id
       }
     })
-    // queryRule({
-    //   parentId
-    // })
-    //   .then(res => {
-    //     if (res && Array.isArray(res.data)) {
-    //       const tempData = this.state.treeData.slice(0)
-    //       // 如果为0则为根节点
-    //       if (parentId === 0) {
-    //         this.setState({
-    //           treeData: this.productTreeData(res.data)
-    //         })
-    //       } else {
-    //         tempData.map(item => {
-    //           if (String(item.key) === String(parentId)) {
-    //             item.children = this.productTreeData(res.data)
-    //           }
-    //         })
-    //         this.setState({
-    //           treeData: tempData
-    //         })
-    //       }
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
   }
 
   onExpand = expandedKeys => {
@@ -84,15 +54,16 @@ class SearchTree extends React.Component {
 
   onChange = e => {
     const { value } = e.target
-    const expandedKeys = dataList
+    const expandedKeys = this.props.equipment.treeDatas
       .map(item => {
         if (item.title.indexOf(value) > -1) {
-          return getParentKey(item.key, gData)
+          return getParentKey(item.key, this.props.equipment.treeDatas)
         }
 
         return null
       })
       .filter((item, i, self) => item && self.indexOf(item) === i)
+    console.log("expandedKeysexpandedKeys", expandedKeys)
     this.setState({
       expandedKeys,
       searchValue: value,

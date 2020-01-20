@@ -4,15 +4,30 @@
   width: 100%;
   background: @component-background;
 }
-.equipment{
+
+.equipment {
   display: flex;
   justify-content: flex-start;
-  >div:nth-child(1){
+
+  >div:nth-child(1) {
     border: 1px solid #ccc;
     padding: 20px;
     margin-right: 20px;
   }
-  >div:nth-child(2){
+
+  >div:nth-child(2) {
     border: 1px solid #ccc;
+  }
+}
+
+.equipment_table {
+  width: 100%;
+}
+
+:global {
+  .antd-pro-pages-equipment-index-equipment {
+    >div:nth-child(2) {
+      width: 100%;
+    }
   }
 }
