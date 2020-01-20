@@ -3,13 +3,6 @@ import { Tree, Input } from "antd"
 import { connect } from "dva"
 import styles from "./index.less"
 
-import {
-  queryRule,
-  updateRule,
-  addRule,
-  removeRule
-} from "../ListTableList/service"
-
 const { TreeNode } = Tree
 const { Search } = Input
 
@@ -18,26 +11,11 @@ class SearchTree extends React.Component {
     expandedKeys: [],
     searchValue: "",
     autoExpandParent: true
-
-    // treeData: [] // 存储树的数据
   }
 
   componentDidMount() {
     this.getTreeData(0)
   }
-
-  // // 组装树状结构需要的数据
-  // productTreeData = arr => {
-  //   if (!Array.isArray(arr)) return
-  //   return arr.map(item => {
-  //     const { name, equipmentId } = item
-  //     return {
-  //       title: name,
-  //       key: equipmentId,
-  //       children: []
-  //     }
-  //   })
-  // }
 
   // 查询设备数据
   getTreeData = id => {
@@ -47,32 +25,6 @@ class SearchTree extends React.Component {
         parentId: id
       }
     })
-    // queryRule({
-    //   parentId
-    // })
-    //   .then(res => {
-    //     if (res && Array.isArray(res.data)) {
-    //       const tempData = this.state.treeData.slice(0)
-    //       // 如果为0则为根节点
-    //       if (parentId === 0) {
-    //         this.setState({
-    //           treeData: this.productTreeData(res.data)
-    //         })
-    //       } else {
-    //         tempData.map(item => {
-    //           if (String(item.key) === String(parentId)) {
-    //             item.children = this.productTreeData(res.data)
-    //           }
-    //         })
-    //         this.setState({
-    //           treeData: tempData
-    //         })
-    //       }
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
   }
 
   onExpand = expandedKeys => {

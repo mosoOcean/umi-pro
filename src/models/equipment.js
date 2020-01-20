@@ -2,7 +2,7 @@
  * @Description: 设备管理model
  * @Author: zhanghaoyu004
  * @Date: 2020-01-18 10:16:35
- * @LastEditTime : 2020-01-19 23:59:19
+ * @LastEditTime : 2020-01-20 11:43:04
  * @LastEditors  : zhanghaoyu004
  */
 import { queryRule } from "@/pages/equipment/ListTableList/service"
@@ -42,7 +42,12 @@ const EquipmentModel = {
       if (Array.isArray(resData) && resData.length > 0) {
         const { parentId } = payload
         const state = yield select(state => state)
-        const tempData = state.equipment.treeDatas.slice(0)
+        // 遍历去除树结构的数据，防止因为对象的引用指向导致的直接改变state中的数据
+        const tempData = []
+        state.equipment.treeDatas.forEach(item => {
+          const obj = Object.assign({}, item)
+          tempData.push(obj)
+        })
         // 如果为0则为根节点
         if (parentId === 0) {
           yield put({
@@ -50,11 +55,21 @@ const EquipmentModel = {
             payload: productTreeData(resData)
           })
         } else {
-          tempData.map(item => {
-            if (String(item.key) === String(parentId)) {
-              item.children = productTreeData(resData)
-            }
-          })
+          const setChildren = (arr, id, childrenData) => {
+            if (!Array.isArray(arr)) return
+            arr.map(item => {
+              if (String(item.key) === String(id)) {
+                item.children = productTreeData(childrenData)
+              } else if (
+                Array.isArray(item.children) &&
+                item.children.length > 0
+              ) {
+                setChildren(item.children, id, childrenData)
+              }
+            })
+            return arr
+          }
+          setChildren(tempData, parentId, resData)
           yield put({
             type: "saveTreeDatas",
             payload: tempData

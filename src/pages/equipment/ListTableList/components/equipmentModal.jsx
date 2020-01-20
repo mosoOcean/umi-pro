@@ -2,11 +2,11 @@
  * @Description: 设备详情模态框
  * @Author: zhanghaoyu004
  * @Date: 2020-01-19 16:09:21
- * @LastEditTime : 2020-01-19 23:50:15
+ * @LastEditTime : 2020-01-20 11:15:16
  * @LastEditors  : zhanghaoyu004
  */
 import React, { useState, useEffect } from "react"
-import { Modal, Form, Input, message } from "antd"
+import { Modal, Form, Input, message, Select } from "antd"
 import { connect } from "dva"
 import { queryRule, updateRule, addRule, removeRule } from "../service"
 
@@ -92,7 +92,16 @@ export default connect(({ equipment }) => {
         <FormItem {...formLayout} label="工作状态">
           {getFieldDecorator("workStatue", {
             initialValue: tempStatus
-          })(<Input placeholder="请输入"></Input>)}
+          })(
+            <Select
+              allowClear
+              style={{ width: "100%" }}
+              placeholder="请选择设备工作状态"
+            >
+              <Select.Option value="0">使用中</Select.Option>
+              <Select.Option value="1">废弃</Select.Option>
+            </Select>
+          )}
         </FormItem>
 
         <FormItem {...formLayout} label="设备详情">
