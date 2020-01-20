@@ -1,8 +1,10 @@
-import { Button, Divider, Form, Table } from "antd"
+import { Button, Divider, Form, Table, Modal, message } from "antd"
 import React, { useState, useEffect, Fragment } from "react"
 import Equipment from "./components/equipmentModal"
+import MeterTable from "./components/meterModal"
 import { connect } from "dva"
 import moment from "moment"
+import { quereMeter, updateRule } from "./service"
 
 import styles from "./index.less"
 
@@ -10,6 +12,9 @@ const TableList = props => {
   const [isNew, setIsNew] = useState(false)
   const [updateModalVisible, handleUpdateModalVisible] = useState(false)
   const [stepFormValues, setStepFormValues] = useState({})
+
+  const [meterShow, setMeterShow] = useState(false)
+  const [meterData, setMeterData] = useState([])
 
   const columns = [
     {
@@ -63,17 +68,73 @@ const TableList = props => {
               setIsNew(false)
             }}
           >
-            配置
+            修改
           </a>
           <Divider type="vertical" />
-          <a href="">订阅警报</a>
+          <a
+            href="javascript:void(0);"
+            onClick={() => {
+              Modal.confirm({
+                title: "确定删除此设备数据？",
+                onOk: () => {
+                  updateRule({ workStatue: 1, equipmentId: record.equipmentId })
+                    .then(res => {
+                      if (res && res.success) {
+                        message.success("删除设备成功")
+                        debugger
+                        this.props.dispatch({
+                          type: "equipment/queryRule",
+                          payload: {
+                            parentId: record.equipmentId
+                          }
+                        })
+                      } else {
+                        message.error("删除设备失败")
+                      }
+                    })
+                    .catch(err => {
+                      console.error(err)
+                    })
+                }
+              })
+            }}
+          >
+            删除
+          </a>
+          {record.lastEquipment ? (
+            <Fragment>
+              <Divider type="vertical" />
+              <a
+                href="javascript:void(0);"
+                onClick={() => {
+                  setMeterShow(true)
+                  setStepFormValues(record)
+                  quereMeterFunc(record.equipmentId)
+                }}
+              >
+                查看仪表
+              </a>
+            </Fragment>
+          ) : null}
         </Fragment>
       )
     }
   ]
 
+  // 仪表查询方法
+  const quereMeterFunc = id => {
+    quereMeter({ equipmentId: id })
+      .then(res => {
+        if (res && res.data) {
+          setMeterData(res.data)
+        }
+      })
+      .catch(err => {
+        console.error(err)
+      })
+  }
+
   const { equipment = {} } = props
-  console.log("equipment.tableDatas", equipment.tableDatas)
 
   const [eTableData, setETableData] = useState(equipment.tableDatas)
 
@@ -101,16 +162,20 @@ const TableList = props => {
         dataSource={eTableData}
       ></Table>
 
-      {
-        // 模态框
-        <Equipment
-          title="设备详情"
-          visible={updateModalVisible}
-          detailValues={stepFormValues}
-          closeModal={handleUpdateModalVisible}
-          isNew={isNew}
-        ></Equipment>
-      }
+      <Equipment
+        title="设备详情"
+        visible={updateModalVisible}
+        detailValues={stepFormValues}
+        closeModal={handleUpdateModalVisible}
+        isNew={isNew}
+      ></Equipment>
+      <MeterTable
+        isShow={meterShow}
+        closeModal={setMeterShow}
+        detailValues={stepFormValues}
+        data={meterData}
+        setData={quereMeterFunc}
+      ></MeterTable>
     </div>
   )
 }

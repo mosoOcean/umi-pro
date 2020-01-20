@@ -2,7 +2,7 @@
  * @Description: 设备详情模态框
  * @Author: zhanghaoyu004
  * @Date: 2020-01-19 16:09:21
- * @LastEditTime : 2020-01-20 11:15:16
+ * @LastEditTime : 2020-01-20 14:57:22
  * @LastEditors  : zhanghaoyu004
  */
 import React, { useState, useEffect } from "react"
@@ -36,9 +36,11 @@ export default connect(({ equipment }) => {
       )
         .then(res => {
           if (res && res.success) {
-            message.success("新增设备成功")
+            const tempTxt = props.isNew ? "新增设备成功" : "设备数据修改成功"
+            message.success(tempTxt)
           } else {
-            message.error("新增设备失败")
+            const tempTxt = props.isNew ? "新增设备失败" : "设备数据修改失败"
+            message.error(tempTxt + res.message)
           }
         })
         .catch(err => {
@@ -91,7 +93,7 @@ export default connect(({ equipment }) => {
 
         <FormItem {...formLayout} label="工作状态">
           {getFieldDecorator("workStatue", {
-            initialValue: tempStatus
+            initialValue: String(tempStatus)
           })(
             <Select
               allowClear
