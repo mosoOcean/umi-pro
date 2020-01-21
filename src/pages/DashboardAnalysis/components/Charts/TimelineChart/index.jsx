@@ -13,6 +13,7 @@ const TimelineChart = props => {
     titleMap = {
       y1: 'y1',
       y2: 'y2',
+      y3: 'y3'
     },
     borderWidth = 2,
     data: sourceData,
@@ -24,17 +25,18 @@ const TimelineChart = props => {
           x: 0,
           y1: 0,
           y2: 0,
+          y3:0
         },
       ];
   data.sort((a, b) => a.x - b.x);
-  let max;
-
+  let max=1000;
+/* 
   if (data[0] && data[0].y1 && data[0].y2) {
     max = Math.max(
       [...data].sort((a, b) => b.y1 - a.y1)[0].y1,
       [...data].sort((a, b) => b.y2 - a.y2)[0].y2,
     );
-  }
+  } */
 
   const ds = new DataSet({
     state: {
@@ -43,6 +45,11 @@ const TimelineChart = props => {
     },
   });
   const dv = ds.createView();
+  let fields = []
+  Object.keys(titleMap).forEach(function(key){
+    fields.push(titleMap[key]) 
+  })
+  debugger
   dv.source(data)
     .transform({
       type: 'filter',
@@ -56,14 +63,15 @@ const TimelineChart = props => {
 
       callback(row) {
         const newRow = { ...row };
-        newRow[titleMap.y1] = row.y1;
-        newRow[titleMap.y2] = row.y2;
+        Object.keys(titleMap).forEach(function(key){
+          newRow[titleMap[key]] = row[key]; 
+        })
         return newRow;
       },
     })
     .transform({
       type: 'fold',
-      fields: [titleMap.y1, titleMap.y2],
+      fields:fields,
       // 展开字段集
       key: 'key',
       // key字段
@@ -89,7 +97,7 @@ const TimelineChart = props => {
       width="auto"
       height={26}
       xAxis="x"
-      yAxis="y1"
+      yAxis="y1,y2,y3"
       scales={{
         x: timeScale,
       }}

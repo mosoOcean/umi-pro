@@ -1,4 +1,4 @@
-import { fakeChartData } from './service';
+import { getMonitorInfoList } from './service';
 
 const initState = {
   visitData: [],
@@ -6,7 +6,92 @@ const initState = {
   salesData: [],
   searchData: [],
   offlineData: [],
-  offlineChartData: [],
+  offlineTitleMap:{
+    Voltage:'电压',
+    Current:'电流',
+    Power:'功率'
+  },
+  tags:[{
+    code:'Voltage',
+    name:'电压',
+    checked:false
+  },{
+    code:'Current',
+    name:'电流',
+    checked:false
+  },{
+    code:'Power',
+    name:'功率',
+    checked:false
+  }],
+  offlineChartData: [
+    {
+        "x":1579529828999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579531628999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579533428999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579535228999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579537028999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579538828999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579540628999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579542428999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579544228999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579546028999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    },
+    {
+        "x":1579547828999,
+        "Voltage":15,
+        "Current":103,
+        "Power":33
+    }
+],
   salesTypeData: [],
   salesTypeDataOnline: [],
   salesTypeDataOffline: [],
@@ -17,22 +102,12 @@ const Model = {
   namespace: 'dashboardAnalysis',
   state: initState,
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(fakeChartData);
-      yield put({
+    *fetch({ payload }, { call, put }) {
+      const response = yield call(getMonitorInfoList,payload);
+     /*  yield put({
         type: 'save',
         payload: response,
-      });
-    },
-
-    *fetchSalesData(_, { call, put }) {
-      const response = yield call(fakeChartData);
-      yield put({
-        type: 'save',
-        payload: {
-          salesData: response.salesData,
-        },
-      });
+      }); */
     },
   },
   reducers: {

@@ -7,6 +7,7 @@ import { getTimeDistance } from './utils/utils';
 import styles from './style.less';
 import moment from 'moment';
 import TreeSearch from './TreeSearch';
+import TagCheckable from './TagCheckable';
 const IntroduceRow = React.lazy(() => import('./components/IntroduceRow'));
 const SalesCard = React.lazy(() => import('./components/SalesCard'));
 const TopSearch = React.lazy(() => import('./components/TopSearch'));
@@ -23,60 +24,69 @@ class DashboardAnalysis extends Component {
     timeList: [
       {
         name: '5分钟',
+        code:'FiveMin',
         value: 5 * 60,
       },
       {
         name: '10分钟',
+        code:'TenMin',
         value: 10 * 60,
       },
       {
         name: '15分钟',
+        code:'FifteenMin',
         value: 15 * 60,
       },
       {
         name: '30分钟',
+        code:'Halfhour',
         value: 30 * 60,
       },
       {
         name: '1小时',
+        code:'Hour',
         value: 60 * 60,
       },
       {
-        name: '2小时',
-        value: 2 * 60 * 60,
-      },
-      {
         name: '4小时',
+        code:'FourHour',
         value: 4 * 60 * 60,
       },
       {
         name: '8小时',
+        code:'EightHour',
         value: 8 * 60 * 60,
       },
       {
         name: '12小时',
+        code:'TwelveHour',
         value: 12 * 60 * 60,
       },
       {
         name: '1天',
+        code:'Day',
         value: 24 * 60 * 60,
       },
     ],
     seleted: [
       {
         name: '5分钟',
+        code:'FiveMin',
         value: 5 * 60,
       },
       {
         name: '10分钟',
+        code:'TenMin',
         value: 10 * 60,
       },
       {
         name: '15分钟',
+        code:'FifteenMin',
         value: 15 * 60,
       },
       {
         name: '30分钟',
+        code:'Halfhour',
         value: 30 * 60,
       },
     ],
@@ -101,6 +111,7 @@ class DashboardAnalysis extends Component {
     cancelAnimationFrame(this.reqRef);
     clearTimeout(this.timeoutId);
   }
+
   handleTabChange = key => {
     this.setState({
       currentTabKey: key,
@@ -135,6 +146,7 @@ class DashboardAnalysis extends Component {
     });
   };
   handleChange = (value, option) => {
+    debugger
     let { dispatch, dashboardAnalysis } = this.props;
     let { startTime, endTime } = dashboardAnalysis;
     let datNum = Math.ceil((endTime - startTime) / 1000 / Number(value.key));
@@ -146,6 +158,24 @@ class DashboardAnalysis extends Component {
       },
     });
   };
+  handleTagSelect=(code,checked)=>{
+    console.log(code,checked)
+    let { dispatch, dashboardAnalysis } = this.props;
+    let { startTime, endTime,seletValue } = dashboardAnalysis;
+    if(checked){
+      dispatch({
+        type: 'dashboardAnalysis/fetch',
+        payload: {
+          meterId:1,
+          startTime,
+          endTime,
+          dataType:code,
+          timespanType:seletValue,
+        },
+      })
+    }
+   
+  }
 
   render() {
     const { rangePickerValue, salesType, currentTabKey } = this.state;
@@ -156,6 +186,8 @@ class DashboardAnalysis extends Component {
       salesData,
       searchData,
       offlineData,
+      tags,
+      offlineTitleMap,
       offlineChartData,
       salesTypeData,
       salesTypeDataOnline,
@@ -163,26 +195,32 @@ class DashboardAnalysis extends Component {
       seleted = [
         {
           name: '5分钟',
+          code:'FiveMin',
           value: 5 * 60,
         },
         {
           name: '10分钟',
+          code:'TenMin',
           value: 10 * 60,
         },
         {
           name: '15分钟',
+          code:'FifteenMin',
           value: 15 * 60,
         },
         {
           name: '30分钟',
+          code:'Halfhour',
           value: 30 * 60,
         },
       ],
       seletValue,
       datNum = 0,
+
     } = dashboardAnalysis;
     return (
       <GridContent>
+      
         <Row className={styles.dashboard}>
           <Col span={6} className={styles.dashboard__tree}>
             <TreeSearch />
@@ -191,7 +229,7 @@ class DashboardAnalysis extends Component {
             <Row>
               <Col span={12}>
                 时间：
-          <RangePicker
+                <RangePicker
                   showTime
                   ranges={{
                     今天: [moment(), moment()],
@@ -202,7 +240,7 @@ class DashboardAnalysis extends Component {
               </Col>
               <Col span={12}>
                 间隔：
-          <Select
+                <Select
                   labelInValue
                   value={{
                     key: seletValue || seleted[0].name,
@@ -218,13 +256,11 @@ class DashboardAnalysis extends Component {
                 </Select>
               </Col>
             </Row>
+            <TagCheckable tags={tags} onSelect={this.handleTagSelect}/>
             <Row>
               <React.Fragment>
                 <Suspense fallback={null}>
-                  <OfflineData
-                    loading={loading}
-                    offlineChartData={offlineChartData}
-                  />
+                  <OfflineData loading={loading} offlineChartData={offlineChartData} offlineTitleMap={offlineTitleMap} />
                 </Suspense>
               </React.Fragment>
             </Row>
