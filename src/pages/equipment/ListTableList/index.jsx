@@ -72,7 +72,6 @@ const TableList = props => {
           </a>
           <Divider type="vertical" />
           <a
-            href="javascript:void(0);"
             onClick={() => {
               Modal.confirm({
                 title: "确定删除此设备数据？",
@@ -104,7 +103,6 @@ const TableList = props => {
             <Fragment>
               <Divider type="vertical" />
               <a
-                href="javascript:void(0);"
                 onClick={() => {
                   setMeterShow(true)
                   setStepFormValues(record)

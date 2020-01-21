@@ -2,7 +2,7 @@
  * @Description: 仪表模态框
  * @Author: zhanghaoyu004
  * @Date: 2020-01-19 16:09:21
- * @LastEditTime : 2020-01-20 15:32:36
+ * @LastEditTime : 2020-01-21 10:31:29
  * @LastEditors  : zhanghaoyu004
  */
 import React, { useState, useEffect, Fragment } from "react"
@@ -75,7 +75,6 @@ export default connect(({ equipment }) => {
         return (
           <Fragment>
             <a
-              href="javascript:void(0);"
               onClick={() => {
                 setNewMeter(true)
                 setIsNew(false)
@@ -86,7 +85,6 @@ export default connect(({ equipment }) => {
             </a>
             <Divider type="vertical" />
             <a
-              href="javascript:void(0);"
               onClick={() => {
                 Modal.confirm({
                   title: "确定删除此仪表数据？",
