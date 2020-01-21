@@ -54,16 +54,31 @@ class SearchTree extends React.Component {
 
   onChange = e => {
     const { value } = e.target
-    const expandedKeys = this.props.equipment.treeDatas
+
+    const dataList = []
+    const generateList = data => {
+      for (let i = 0; i < data.length; i++) {
+        const node = data[i]
+        const { title, key } = node
+        dataList.push({ key, title })
+        if (node.children) {
+          generateList(node.children)
+        }
+      }
+    }
+    // 获取所有节点信息
+    generateList(this.props.equipment.treeDatas || [])
+    //查找现在的所有节点哪里有搜索区输入的内容，如果匹配到了并且有children，则返回该节点key值
+    const expandedKeys = dataList
       .map(item => {
-        if (item.title.indexOf(value) > -1) {
+        if (String(item.title).indexOf(value) > -1) {
           return getParentKey(item.key, this.props.equipment.treeDatas)
         }
 
         return null
       })
       .filter((item, i, self) => item && self.indexOf(item) === i)
-    console.log("expandedKeysexpandedKeys", expandedKeys)
+
     this.setState({
       expandedKeys,
       searchValue: value,
