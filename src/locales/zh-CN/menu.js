@@ -2,11 +2,11 @@
  * @Description: desc
  * @Author: zhanghaoyu004
  * @Date: 2020-01-06 23:32:22
- * @LastEditTime : 2020-01-19 22:58:37
+ * @LastEditTime : 2020-01-21 13:21:27
  * @LastEditors  : zhanghaoyu004
  */
 export default {
-  "menu.welcome": "欢迎",
+  // "menu.welcome": "欢迎",
   "menu.more-blocks": "更多区块",
   "menu.home": "首页",
   "menu.admin": "管理页",
