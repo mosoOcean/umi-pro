@@ -183,6 +183,7 @@ export default {
   manifest: {
     basePath: "/"
   }, // chainWebpack: webpackPlugin,
+  publicPath: "/app/",
   proxy: {
     "/api/": {
       // target: "http://47.94.16.18:3300",
