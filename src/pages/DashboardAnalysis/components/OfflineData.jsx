@@ -2,8 +2,8 @@ import { Card, Col, Row } from 'antd';
 import React from 'react';
 import { TimelineChart} from './Charts';
 import styles from '../style.less';
+const OfflineData = ({ loading, offlineChartData,offlineTitleMap }) => (
 
-const OfflineData = ({ loading, offlineChartData }) => (
   <Card
     loading={loading}
     className={styles.offlineCard}
@@ -15,10 +15,7 @@ const OfflineData = ({ loading, offlineChartData }) => (
     <TimelineChart
       height={400}
       data={offlineChartData}
-      titleMap={{
-        y1: 'dashboardanalysis.analysis.traffic',
-        y2: 'dashboardanalysis.analysis.payments',
-      }}
+      titleMap={offlineTitleMap}
     />
   </Card>
 );
