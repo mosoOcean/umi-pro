@@ -1,5 +1,24 @@
 @import '~antd/es/style/themes/default.less';
 
+.main {
+  width: 100%;
+  background: @component-background;
+}
+.dashboard{
+  display: flex;
+  justify-content: flex-start;
+ .dashboard__tree{
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-right: 20px;
+    background: #fff;
+  }
+  .dashboard__chart{
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 20px;
+  }
+}
 .iconGroup {
   i {
     margin-left: 16px;

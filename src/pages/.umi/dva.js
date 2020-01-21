@@ -20,11 +20,11 @@ export function _onCreate() {
     app.use(plugin);
   });
   
-  app.model({ namespace: 'equipment', ...(require('/Users/zhanghaoyu/Documents/IOT/umi-pro/src/models/equipment.js').default) });
-app.model({ namespace: 'global', ...(require('/Users/zhanghaoyu/Documents/IOT/umi-pro/src/models/global.js').default) });
-app.model({ namespace: 'login', ...(require('/Users/zhanghaoyu/Documents/IOT/umi-pro/src/models/login.js').default) });
-app.model({ namespace: 'setting', ...(require('/Users/zhanghaoyu/Documents/IOT/umi-pro/src/models/setting.js').default) });
-app.model({ namespace: 'user', ...(require('/Users/zhanghaoyu/Documents/IOT/umi-pro/src/models/user.js').default) });
+  app.model({ namespace: 'equipment', ...(require('/Users/wujian/Documents/github/umi-pro/src/models/equipment.js').default) });
+app.model({ namespace: 'global', ...(require('/Users/wujian/Documents/github/umi-pro/src/models/global.js').default) });
+app.model({ namespace: 'login', ...(require('/Users/wujian/Documents/github/umi-pro/src/models/login.js').default) });
+app.model({ namespace: 'setting', ...(require('/Users/wujian/Documents/github/umi-pro/src/models/setting.js').default) });
+app.model({ namespace: 'user', ...(require('/Users/wujian/Documents/github/umi-pro/src/models/user.js').default) });
   return app;
 }
 
